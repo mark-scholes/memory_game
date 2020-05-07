@@ -22,3 +22,56 @@ const cards = [
   { name: "xenomorph_face", image: "vfAFwnTF_400x400.jpg" },
   { name: "xenomorph_face", image: "vfAFwnTF_400x400.jpg" },
 ];
+
+// setting up the game board
+
+cards.sort(() => 0.5 - Math.random());
+
+const grid = document.querySelector(".grid");
+const resultsDisplay = document.querySelector("#result");
+let cardChosen = [];
+let cardsChosenId = [];
+let cardsFound = [];
+
+createBoard = () => {
+  for (let i = 0; i < cards.length; i++) {
+    let card = document.createElement("img");
+    card.setAttribute("src", "images/blank.png");
+    card.setAttribute("data-id", i);
+    card.addEventListener("click", flipCard);
+    grid.appendChild(card);
+  }
+};
+
+checkForMatch = () => {
+  let allCards = document.querySelectorAll("img");
+  const optionOneId = cardsChosenId[0];
+  const optionTwoId = cardsChosenId[1];
+  if (cardsChosen[0] === cardsChosen[1]) {
+    alert("You found a match");
+    cards[optionOneId].setAttribute("src", "images/white.png");
+    cards[optiontwoId].setAttribute("src", "images/white.png");
+    cardsFound.push(cardsChosen);
+  } else {
+    allCards[optionOneId].setAttribute("src", "images/blank.png");
+    allCards[optionTwoId].setAttribute("src", "images/blank.png");
+    alert("Sorry try again");
+  }
+  cardsChosenId = [];
+
+  cardsChosen = [];
+  resultsDisplay;
+};
+
+flipCard = () => {
+  let cardId = this.getAttribute("data-id");
+  cardChosen.push(cards[cardId.name]);
+  cardsChosenId.push(cardId);
+
+  this.setAttribute("src", cards[cardId].img);
+  if (cardChosen.length === 2) {
+    setTimeout(checkForMatch, 500);
+  }
+};
+
+createBoard();
