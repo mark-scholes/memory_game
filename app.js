@@ -3,11 +3,11 @@ const cards = [
   { name: "Ripley", image: "images/5e5dcfa5d4d9e61312bec3a021072685.jpeg" },
   {
     name: "Alien_isolation",
-    image: "4229e095-401e-45d9-8e9f-9fcc939e86eb.jpg",
+    image: "images/alien_isolation.jpg",
   },
   {
     name: "Alien_isolation",
-    image: "4229e095-401e-45d9-8e9f-9fcc939e86eb.jpg",
+    image: "images/alien_isolation.jpg",
   },
   { name: "giger_xenomorph", image: "images/alien.jpg" },
   { name: "giger_xenomorph", image: "images/alien.jpg" },
@@ -34,7 +34,7 @@ const cards = [
 cards.sort(() => 0.5 - Math.random());
 
 const grid = document.getElementById("grid");
-console.log(document.getElementById("grid"));
+
 const resultsDisplay = document.getElementById("result");
 let cardsChosen = [];
 let cardsChosenId = [];
@@ -52,21 +52,24 @@ createBoard = () => {
 
 checkForMatch = () => {
   let allCards = document.querySelectorAll("img");
-  const optionOneId = cardsChosenId[0];
-  const optionTwoId = cardsChosenId[1];
-  console.log(cardsChosenId);
+  const optionOne = cardsChosen[0];
+  const optionTwo = cardsChosen[1];
+
   if (cardsChosen[0] === cardsChosen[1]) {
     alert("You found a match");
-    cards[optionOneId].setAttribute("src", "images/white.png");
-    cards[optiontwoId].setAttribute("src", "images/white.png");
+    document
+      .getElementById(cardsChosenId[0])
+      .setAttribute("src", "images/white.png");
+    document
+      .getElementById(cardsChosenId[1])
+      .setAttribute("src", "images/white.png");
     cardsFound.push(cardsChosen);
   } else {
-    allCards[optionOneId].setAttribute("src", "images/blank.png");
-    allCards[optionTwoId].setAttribute("src", "images/blank.png");
+    allCards[cardsChosenId[0]].setAttribute("src", "images/blank.png");
+    allCards[cardsChosenId[1]].setAttribute("src", "images/blank.png");
     alert("Sorry try again");
   }
   cardsChosenId = [];
-
   cardsChosen = [];
   resultsDisplay.textContent = cardsFound.length;
   if (cardsFound.length === cards.length / 2) {
@@ -76,11 +79,8 @@ checkForMatch = () => {
 
 flipCard = (e) => {
   let cardId = e.target.id;
-
-  cardsChosen.push(cards[cardId]);
-
+  cardsChosen.push(cards[cardId].name);
   cardsChosenId.push(cardId);
-
   e.target.setAttribute("src", cards[cardId].image);
   if (cardsChosen.length === 2) {
     setTimeout(checkForMatch, 500);
